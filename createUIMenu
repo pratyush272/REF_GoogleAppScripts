@@ -1,0 +1,17 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  // Or DocumentApp or FormApp.
+  ui.createMenu('Exec')
+      .addItem('getContacts', 'getContacts')
+      .addSeparator()
+      .addSubMenu(ui.createMenu('Sub-menu')
+          .addItem('Second item', 'menuItem2'))
+      .addToUi();
+}
+
+
+
+function menuItem2() {
+  SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
+     .alert('You clicked the second menu item!');
+}
