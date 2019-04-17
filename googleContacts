@@ -1,0 +1,42 @@
+function getContacts() {
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sht = ss.getSheetByName("Contacts");
+  sht.clear();
+  
+  var contacts = ContactsApp.getContactsByName('PB', ContactsApp.Field.GIVEN_NAME);
+  sht.appendRow(["BrideName","Source","ID"]);
+  for (var i in contacts) {
+  Logger.log(contacts[i].getFullName());
+  var name1 = contacts[i].getFullName().replace("PB ", "").replace("SH ", "").replace("BH ", "").replace("JS ", "");
+  
+  var url=  ""
+  if(contacts[i].getGivenName().substring(3,5)=="SH" && contacts[i].getNickname()!= "")    
+  {url="https://www.a1.com/profile?txtprofileid="+contacts[i].getNickname()}
+  if(contacts[i].getGivenName().substring(3,5)=="BH" && contacts[i].getNickname()!= "")    
+  {url="https://www.a2.com/profiledetail/viewprofile.php?id="+contacts[i].getNickname()}
+  if(contacts[i].getGivenName().substring(3,5)=="JS" && contacts[i].getNickname()!= "")    
+  {url="https://www.a3.com/profile/viewprofile.php?stype=4&username="+contacts[i].getNickname()}
+    
+  sht.appendRow([name1,contacts[i].getGivenName().substring(3,5),contacts[i].getNickname(),url]);
+}
+}
+
+
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  // Or DocumentApp or FormApp.
+  ui.createMenu('Exec')
+      .addItem('getContacts', 'getContacts')
+      .addSeparator()
+      .addSubMenu(ui.createMenu('Sub-menu')
+          .addItem('Second item', 'menuItem2'))
+      .addToUi();
+}
+
+
+
+function menuItem2() {
+  SpreadsheetApp.getUi() // Or DocumentApp or FormApp.
+     .alert('You clicked the second menu item!');
+}
